@@ -1,0 +1,75 @@
+# module to allow you to specify the default directory from the command line
+# ---------------------------------------------------------------------------
+import modules ;
+import path ;
+
+.is-command-line ?= ;
+.default-install-dir = [ MATCH --install-dir=(.*) : [ modules.peek : ARGV ] ] ;
+if $(.default-install-dir)
+{
+    # If the option is specified several times, take the last value.
+    .default-install-dir = [ path.make $(.default-install-dir[-1]) ] ;
+    if ! [ path.is-rooted $(.default-install-dir) ]
+    {
+        .is-command-line = true ;
+        .default-install-dir = [ path.join [ path.pwd ] $(.default-install-dir) ] ;
+    }
+}
+else
+{
+    .default-install-dir = ./bin ;
+}
+
+rule set-install-dir ( value )
+{
+    if ! $(.is-command-line)
+    {
+        .default-install-dir = $(value) ;
+    }
+}
+
+rule default-install ( sources + : requirements * : default-build * : usage-requirements * )
+{
+    install $(sources[0])-install
+      : # sources
+        $(sources)
+      : # requirements
+        <install-dependencies>on
+        <install-type>EXE
+        <install-type>SHARED_LIB
+        <variant>debug:<install-type>PDB
+        <variant>debug:<location>$(.default-install-dir)/debug
+        <variant>release:<location>$(.default-install-dir)/release
+        <variant>profile:<location>$(.default-install-dir)/profile
+        $(requirements)
+      : # default-build
+        $(default-build)
+      : # usage-requirements
+        $(usage-requirements)
+      ;
+}
+
+rule default-install-test ( sources + : requirements * : default-build * : usage-requirements * )
+{
+    install $(sources[0])-install
+      : # sources
+        $(sources)
+      : # requirements
+        <install-dependencies>on
+        <install-type>EXE
+        <install-type>SHARED_LIB
+        <variant>debug
+        <install-type>PDB
+        <location>$(.default-install-dir)/test
+        $(requirements)
+      : # default-build
+        $(default-build)
+      : # usage-requirements
+        $(usage-requirements)
+      ;
+}
+
+IMPORT $(__name__) : set-install-dir      : : set-install-dir ;
+IMPORT $(__name__) : default-install      : : default-install ;
+IMPORT $(__name__) : default-install-test : : default-install-test ; 
+

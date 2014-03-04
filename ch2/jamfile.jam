@@ -1,0 +1,16 @@
+exe war
+ : # sources
+   ./source/war.cpp
+   # dependent packages
+ : # requirements
+   <include>./include
+   <include>./source
+ : # default-build
+ : # usage-requirements
+ ;
+
+# install libs/exes
+# -------------------------------------------------------------- #
+
+default-install war ;
+

@@ -1,0 +1,42 @@
+# jamroot for RWK1 project
+
+# imports 
+import ./tools/default-install ;
+import type ;
+import os ;
+
+# register .C files for ROOT macros
+type.register-suffixes C : CPP ; 
+
+# change the suffix from dylib to so on MACOSX
+type.change-generated-target-suffix SHARED_LIB : <target-os>darwin : so ;
+
+# path to project
+path-constant BUDD : ./ ;
+
+# build directory
+path-constant build-dir : ./bin/temp ;
+
+# install exe directory
+path-constant install-dir : ./bin ;
+
+# install lib directory
+path-constant install-lib : ./lib ;
+
+# define the project
+project budd
+  : build-dir
+    $(build-dir)
+  : default-build release
+  ;
+
+set-install-dir $(install-dir) ;
+
+# -----------------------------#
+# External Sources and programs
+# -----------------------------#
+
+# BOOST
+local boost_current = [ os.environ BOOST_CURRENT ] ;
+use-project /boost : $(boost_current) ;
+

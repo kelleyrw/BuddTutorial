@@ -1,0 +1,16 @@
+exe ch4
+ : # sources
+   ./source/ch4.cpp
+   # dependent packages
+ : # requirements
+   <include>./include
+   <include>./source
+ : # default-build
+ : # usage-requirements
+ ;
+
+# install libs/exes
+# -------------------------------------------------------------- #
+
+default-install ch4 ;
+

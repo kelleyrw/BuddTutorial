@@ -1,0 +1,28 @@
+exe hanoi
+ : # sources
+   ./source/hanoi.cpp
+   # dependent packages
+ : # requirements
+   <include>./include
+   <include>./source
+ : # default-build
+ : # usage-requirements
+ ;
+
+exe ex7
+ : # sources
+   ./source/ex7.cpp
+   # dependent packages
+ : # requirements
+   <include>./include
+   <include>./source
+ : # default-build
+ : # usage-requirements
+ ;
+
+# install libs/exes
+# -------------------------------------------------------------- #
+
+default-install hanoi ;
+default-install ex7 ;
+
