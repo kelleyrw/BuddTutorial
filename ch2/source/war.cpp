@@ -519,13 +519,13 @@ void WarGame::PrintResult() const
 int main()
 try
 {
- 	WarGame game;
- 	while(!game.IsDone())
- 	{
- 		game.Update();
- 	}
+    WarGame game;
+    while(!game.IsDone())
+    {
+        game.Update();
+    }
 
-	return 0;
+    return 0;
 }
 catch (std::exception& e)
 {

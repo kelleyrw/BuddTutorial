@@ -9,8 +9,20 @@ exe ch4
  : # usage-requirements
  ;
 
+exe bubble_sort
+ : # sources
+   ./source/bubble_sort.cpp
+   # dependent packages
+ : # requirements
+   <include>./include
+   <include>./source
+ : # default-build
+ : # usage-requirements
+ ;
+
 # install libs/exes
 # -------------------------------------------------------------- #
 
 default-install ch4 ;
+default-install bubble_sort ;
 
